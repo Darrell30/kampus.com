@@ -14,13 +14,20 @@ class UsersTableSeeder extends Seeder
         // Admin
         User::create([
             'name' => 'Admin',
-            'email' => 'admin@kompas.test',
-            'password' => Hash::make('admin1234'),
+            'email' => 'admin@kompas.com',
+            'password' => Hash::make('admin123'),
             'role' => 'admin',
         ]);
 
         // 4 user biasa
         User::factory(4)->create(['role' => 'user']);
+        User::create([
+            'name' => 'Luis',
+            'email' => 'luis@kompas.com',
+            'password' => Hash::make('user123'),
+            'role' => 'user',
+        ]);
+
     }
 }
 

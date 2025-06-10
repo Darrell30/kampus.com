@@ -51,4 +51,15 @@ class ArticleController extends Controller
 
         return redirect()->route('articles.show', $article->slug)->with('success', 'Artikel berhasil diposting.');
     }
+
+    public function destroy($id)
+    {   
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        $article = Article::findOrFail($id);
+        $article->delete();
+
+        return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
+    }
 }

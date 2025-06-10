@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
+
+
     <!-- Custom CSS -->
     <style>
         .navbar-brand {
@@ -25,6 +27,7 @@
         }
     </style>
 </head>
+
 <body>
     {{-- Navigation --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -57,6 +60,13 @@
                         <li class="nav-item">
                             <span class="nav-link">Halo, {{ Auth::user()->name }}</span>
                         </li>
+
+                        @if(Auth::user()->role === 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('articles.create') }}">Post</a>
+                            </li>
+                        @endif
+
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -68,6 +78,8 @@
             </div>
         </div>
     </nav>
+
+    
 
     {{-- Flash Messages --}}
     @if(session('success'))

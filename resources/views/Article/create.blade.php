@@ -1,12 +1,12 @@
 @extends('Layouts.app')
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Buat Artikel Baru</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Buat Artikel Baru</h1>
 
     @if ($errors->any())
-        <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
-            <ul class="list-disc list-inside">
+        <div class="alert alert-danger">
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -14,47 +14,45 @@
         </div>
     @endif
 
-    <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+    <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div>
-            <label for="title" class="block font-semibold">Judul Artikel</label>
+        <div class="mb-3">
+            <label for="title" class="form-label">Judul Artikel</label>
             <input type="text" name="title" id="title" value="{{ old('title') }}"
-                   class="w-full border border-gray-300 p-2 rounded" required>
+                   class="form-control" required>
         </div>
 
-        <div>
-            <label for="content" class="block font-semibold">Konten</label>
+        <div class="mb-3">
+            <label for="content" class="form-label">Konten</label>
             <textarea name="content" id="content" rows="6"
-                      class="w-full border border-gray-300 p-2 rounded" required>{{ old('content') }}</textarea>
+                      class="form-control" required>{{ old('content') }}</textarea>
         </div>
 
-        <div>
-            <label for="image" class="block font-semibold">Gambar (Opsional)</label>
-            <input type="file" name="image" id="image" class="w-full">
+        <div class="mb-3">
+            <label for="image" class="form-label">Gambar (Opsional)</label>
+            <input type="file" name="image" id="image" class="form-control">
         </div>
 
-        <div>
-            <label for="categories" class="block font-semibold">Kategori</label>
+        <div class="mb-3">
+            <label for="categories" class="form-label">Kategori</label>
             <select name="categories[]" id="categories" multiple required
-                    class="w-full border border-gray-300 p-2 rounded">
-                @foreach ($categories as $category)
+                    class="form-select w-auto" style="height: auto; max-width: 250px; overflow-y: auto;">
+                    @foreach ($categories as $category)
                     <option value="{{ $category->id }}"
                         {{ in_array($category->id, old('categories', [])) ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
                 @endforeach
             </select>
-            <small class="text-gray-500">Gunakan Ctrl (Windows) / Command (Mac) untuk memilih lebih dari satu.</small>
+            <small class="form-text text-muted">Gunakan Ctrl (Windows) / Command (Mac) untuk memilih lebih dari satu.</small>
         </div>
 
         <div>
-            <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button type="submit" class="btn btn-primary">
                 Posting Artikel
             </button>
         </div>
     </form>
 </div>
 @endsection
-    
