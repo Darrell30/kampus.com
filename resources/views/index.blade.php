@@ -44,6 +44,8 @@
                         <div class="card-footer text-muted small">
                             Ditulis oleh {{ $article->user->name }} pada {{ $article->created_at->format('d M Y') }}
                         </div>
+                        {{-- Tombol Hapus --}}
+                        @include('partials.delete-button', ['article' => $article])
                     </div>
                 </div>
             @empty

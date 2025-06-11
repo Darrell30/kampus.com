@@ -14,7 +14,10 @@ Route::post('/articles/{slug}/comments', [CommentController::class, 'store'])->n
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('login.perform');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-Route::get('/register', [AuthController::class, 'showLoginForm'])->name('register');
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
 Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 
 
@@ -50,7 +53,4 @@ Route::middleware(['auth', 'checkrole:user'])->group(function () {
     Route::get('/user/dashboard', [UserDashboard::class, 'index'])->name('user.dashboard');
 });
 
-
-Route::middleware(['auth', 'checkrole:admin'])->group(function () {
-    Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
-});
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

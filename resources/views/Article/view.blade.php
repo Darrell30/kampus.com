@@ -25,6 +25,8 @@
                     @endforeach
                 </div>
             </div>
+            {{-- Tombol Hapus (hanya admin) --}}
+            @include('partials.delete-button', ['article' => $article])
 
             {{-- Article Image --}}
             @if($article->image)

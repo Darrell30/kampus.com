@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Article;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -30,7 +31,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png',
             'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
         ]);
@@ -53,13 +54,25 @@ class ArticleController extends Controller
     }
 
     public function destroy($id)
-    {   
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized action.');
-        }
-        $article = Article::findOrFail($id);
-        $article->delete();
-
-        return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
+{   
+    // Tambahkan import Auth di atas file
+    if (!auth()->check()) {
+        return redirect()->route('login');
     }
+    
+    if (auth()->user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+    
+    $article = Article::findOrFail($id);
+    
+    // Hapus gambar jika ada
+    if ($article->image) {
+        Storage::disk('public')->delete($article->image);
+    }
+    
+    $article->delete();
+
+    return redirect()->route('home')->with('success', 'Artikel berhasil dihapus.');
+}
 }

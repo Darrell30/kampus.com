@@ -35,17 +35,21 @@
         </div>
 
         <div class="mb-3">
-            <label for="categories" class="form-label">Kategori</label>
-            <select name="categories[]" id="categories" multiple required
-                    class="form-select w-auto" style="height: auto; max-width: 250px; overflow-y: auto;">
-                    @foreach ($categories as $category)
-                    <option value="{{ $category->id }}"
-                        {{ in_array($category->id, old('categories', [])) ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
+            <label class="form-label">Kategori</label>
+            <div class="d-flex flex-wrap gap-3">
+                @foreach ($categories as $category)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" 
+                               name="categories[]" value="{{ $category->id }}" 
+                               id="category_{{ $category->id }}"
+                               {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="category_{{ $category->id }}">
+                            {{ $category->name }}
+                        </label>
+                    </div>
                 @endforeach
-            </select>
-            <small class="form-text text-muted">Gunakan Ctrl (Windows) / Command (Mac) untuk memilih lebih dari satu.</small>
+            </div>
+            <small class="form-text text-muted">Pilih satu atau lebih kategori yang sesuai.</small>
         </div>
 
         <div>

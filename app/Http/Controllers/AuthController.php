@@ -51,4 +51,46 @@ class AuthController extends Controller
         return back()->with('error', 'Email atau password salah');
     }
 
+    public function showRegisterForm(){
+    return view('auth.register'); // Pastikan file-nya ada di resources/views/auth/register.blade.php
+    }
+
+    public function register(Request $request){
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
+
+    $user = \App\Models\User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'role' => 'user',
+    ]);
+
+    auth()->login($user);
+
+    return redirect()->route('home');
+
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'role' => 'user', 
+    ]);
+
+    auth()->login($user);
+
+    return redirect()->route('home');
+    }
+
+
 }

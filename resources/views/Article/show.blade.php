@@ -56,12 +56,18 @@
             <ul class="list-unstyled">
                 @foreach($article->comments->sortByDesc('created_at') as $comment)
                     <li class="mb-3 border-bottom pb-2">
-                        <strong>{{ $comment->user->name }}</strong>
-                        <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>{{ $comment->user->name }}</strong>
+                                <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                            </div>
+                            @include('partials.delete-comment-button', ['comment' => $comment])
+                        </div>
                         <p class="mb-0">{{ $comment->comment }}</p>
                     </li>
                 @endforeach
             </ul>
+
         @else
             <p class="text-muted">Belum ada komentar.</p>
         @endif
